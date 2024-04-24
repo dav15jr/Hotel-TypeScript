@@ -1,12 +1,12 @@
-const reviewTotalDisplay = document.querySelector('#reviews')
-const returningUserDisplay = document.querySelector('#returning-user')
-const userNameDisplay = document.querySelector('#user')
+const reviewTotalDisplay = document.querySelector('#reviews')as Element
+const returningUserDisplay = document.querySelector('#returning-user')as Element
+const userNameDisplay = document.querySelector('#user')as Element
 import { LoyaltyUser, Permissions } from './enums'
-import  Review  from './interfaces'
-
+import { Review } from './interfaces'
+// , isLoyalty: LoyaltyUser
 export function showReviewTotal(value: number, reviewer: string, isLoyalty: LoyaltyUser) {
-    const iconDisplay = LoyaltyUser.GOLD_USER ? '⭐' : ''
-    reviewTotalDisplay.innerHTML = value.toString() + ' review' + makeMultiple(value) + ' | last reviewed by ' + reviewer + ' ' + iconDisplay    
+    const iconDisplay = isLoyalty === "GOLD_USER" ? '⭐' : ''
+    reviewTotalDisplay.innerHTML = value.toString() + ' review' + makeMultiple(value) + ' | last reviewed by ' + reviewer + ' ' + iconDisplay  
 }
 
 export function populateUser(isReturning : boolean, userName: string ) {
@@ -16,8 +16,8 @@ export function populateUser(isReturning : boolean, userName: string ) {
     userNameDisplay.innerHTML = userName
 }
 
-export function showDetails(value: boolean | Permissions, element : HTMLDivElement, price: number) {
-    if (value) {
+export function showDetails(value: Permissions, element : HTMLDivElement, price: number) {
+    if (value == "ADMIN") {
         const priceDisplay = document.createElement('div')
         priceDisplay.innerHTML = price.toString() + '/night'
         element.appendChild(priceDisplay)

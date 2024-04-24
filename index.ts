@@ -1,16 +1,12 @@
-// Code Tidy
-
 import { showReviewTotal, populateUser, showDetails, getTopTwoReviews} from './utils'
 import { Permissions , LoyaltyUser } from './enums'
 import { Review, Property } from './interfaces'
 import MainProperty from './classes' 
-const propertyContainer = document.querySelector('.properties')
-const reviewContainer = document.querySelector('.reviews')
-const container = document.querySelector('.container')
-const button = document.querySelector('button')
-const footer = document.querySelector('.footer')
-
-let isLoggedIn: boolean
+const propertyContainer = document.querySelector('.properties')as Element
+const reviewContainer = document.querySelector('.reviews') as Element
+const container = document.querySelector('.container') as Element
+const button = document.querySelector('button') as Element
+const footer = document.querySelector('.footer')as Element
 
 // Reviews
 const reviews: Review[] = [
@@ -18,7 +14,7 @@ const reviews: Review[] = [
         name: 'Sheila',
         stars: 5,
         loyaltyUser: LoyaltyUser.GOLD_USER,
-        date: '01-04-2021'
+        date: '01-01-2020'
     },
     {
         name: 'Andrzej',
@@ -33,17 +29,6 @@ const reviews: Review[] = [
         date: '27-03-2021',
     },
 ]
-
-const you = {
-    firstName: 'Bobby',
-    lastName: 'Brown',
-    permissions: Permissions.ADMIN,
-    isReturning: true,
-    age: 35,
-    stayedAt: ['florida-home', 'oman-flat', 'tokyo-bungalow']
-}
-
-// Array of Properties
 const properties : Property[] = [
     {
         image: 'images/colombia-property.jpg',
@@ -98,22 +83,31 @@ const properties : Property[] = [
         isAvailable: false
     }
 ]
+const you = {
+    firstName: 'Davis',
+    lastName: 'Jr',
+    permissions: Permissions.ADMIN,
+    isReturning: false,
+    age: 28,
+    stayedAt: ['florida-home', 'oman-flat', 'tokyo-bungalow']
+}
 
 // Functions
-showReviewTotal(reviews.length, reviews[0].name, reviews[0].loyaltyUser)
+showReviewTotal(reviews.length, reviews[0].name, reviews[0].loyaltyUser) // set to always use the first reviewer
 
 populateUser(you.isReturning, you.firstName)
 
 // Add the properties
 for (let i = 0; i < properties.length; i++) {
     const card = document.createElement('div')
-    card.classList.add('card')
-    card.innerHTML = properties[i].title
+        card.classList.add('card')
+        card.innerHTML = properties[i].title
     const image = document.createElement('img')
-    image.setAttribute('src', properties[i].image)
-    card.appendChild(image)
-    showDetails(you.permissions, card, properties[i].price)
-    propertyContainer.appendChild(card)
+        image.setAttribute('src', properties[i].image)
+        card.appendChild(image)
+        showDetails(you.permissions, card, properties[i].price)
+        card.innerHTML += `${properties[i].location.city}, ${properties[i].location.country}`  //added to show more details
+        propertyContainer.appendChild(card)
 }
 
 let count = 0
@@ -133,11 +127,11 @@ function addReviews(array : Review[]) : void {
 
 button.addEventListener('click', () => addReviews(reviews))
 
-let currentLocation : [string, string, number] = ['London', '11.03', 17]
+const currentLocation : [string, string, number] = ['London', '11.03', 17]
 footer.innerHTML = currentLocation[0] + ' ' + currentLocation[1] + ' ' + currentLocation[2] + '°'
 
 
-let yourMainProperty = new MainProperty(
+const yourMainProperty = new MainProperty(
     'images/italian-property.jpg', 
     'Italian House',
     [{
@@ -147,7 +141,7 @@ let yourMainProperty = new MainProperty(
         date: '12-04-2021'
     }] )
 
-const mainImageContainer = document.querySelector('.main-image')
+const mainImageContainer = document.querySelector('.main-image')as Element
 const image = document.createElement('img')
 image.setAttribute('src', yourMainProperty.src)
 mainImageContainer.appendChild(image)
